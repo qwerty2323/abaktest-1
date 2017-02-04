@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class Category < ActiveRecord::Base
   validates :title,
             presence: true,
@@ -6,7 +8,23 @@ class Category < ActiveRecord::Base
   validates :alias,
             presence: true,
             length: { maximum: 255, too_long: "%{count} characters is the maximum allowed" },
-            format: { with: /[\w?-??-???\/_]*/i, message: 'only allows letters' }
+            format: { with: /^[\wа-яА-ЯёЁ_]*$/i, message: 'only allows letters' }
+
+  validate :check_action_in_alias
+  validate :check_unique_alias
+
+  def check_action_in_alias
+    data = %w[index add create edit update delete]
+    errors.add(:alias, 'can\'t be the same words: ' + data.join(', ')) if data.include?(self[:alias])
+  end
+
+  def check_unique_alias
+    cnt = Category.where(parent_id: self[:parent_id], alias: self[:alias]).count
+    p = parent
+    p2 = parent.id
+    p3 = self[:parent_id]
+    errors.add(:alias, 'already exists') if cnt.nonzero?
+  end
 
   def text=(val)
     self[:text] = val
@@ -49,7 +67,6 @@ class Category < ActiveRecord::Base
   end
 
   def parent
-    # ?? ????? ?????????? ?????? ??? ? ????
     unless @parent
       @parent = Category.find self[:parent_id] || Category.new
     end

@@ -1,24 +1,26 @@
+# coding: utf-8
+
 Abaktest::Application.routes.draw do
 
   root to: 'categories#index'
   get 'index', to: 'categories#index'
 
   get 'add', to: 'categories#new'
-  get ':alias/add', to: 'categories#new', constraints: { alias: /[\w?-??-???\/_]*/i }
+  get ':alias/add', to: 'categories#new', constraints: { alias: /.*/ }
 
   post 'create', to: 'categories#create'
-  post ':alias/create', to: 'categories#create', constraints: { alias: /[\w?-??-???\/_]*/i }
+  post ':alias/create', to: 'categories#create', constraints: { alias: /.*/ }
 
   get 'edit', to: 'categories#edit'
-  get ':alias/edit', to: 'categories#edit', constraints: { alias: /[\w?-??-???\/_]*/i }
+  get ':alias/edit', to: 'categories#edit', constraints: { alias: /.*/ }
 
   put 'update', to: 'categories#update'
-  put ':alias/update', to: 'categories#update', constraints: { alias: /[\w?-??-???\/_]*/i }
+  put ':alias/update', to: 'categories#update', constraints: { alias: /.*/ }
 
   delete 'delete', to: 'categories#destroy'
-  delete ':alias/delete', to: 'categories#destroy', constraints: { alias: /[\w?-??-???\/_]*/i }
+  delete ':alias/delete', to: 'categories#destroy', constraints: { alias: /.*/ }
 
-  get ':alias', to: 'categories#show', constraints: { alias: /[\w?-??-???\/_]*/i }
+  get ':alias', to: 'categories#show', constraints: { alias: /.*/ }
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

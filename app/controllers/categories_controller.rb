@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class CategoriesController < ApplicationController
 
   def index
@@ -48,10 +50,12 @@ class CategoriesController < ApplicationController
       raise ActionController::RoutingError.new('Not fount')
     end
 
+    @parent = Category.new unless @parent
+
     @category.title = params[:category][:title]
     @category.alias = params[:category][:alias]
     @category.text = params[:category][:text]
-    @category.parent = @parent || Category.new
+    @category.parent = @parent
 
     respond_to do |format|
       if @category.save
