@@ -13,6 +13,6 @@ Benchmark.bm do |x|
     end
   end
 
-  p result.size
+  puts "Number of found objects: #{result.size}"
 
 end
