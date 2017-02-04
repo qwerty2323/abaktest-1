@@ -7,10 +7,10 @@ def get_options
     data[key.to_sym] = val
   end
 
-  result[:size] = data[:size] ? data[:size].to_i : 1000000
+  result[:size] = data[:size] ? data[:size].to_i : 10000000
   result[:filters] = []
 
-  %w[age width height price].each do |key|
+  %w[age width height salary].each do |key|
     equal = key.to_sym
     min = ('min_' + key).to_sym
     max = ('max_' + key).to_sym
@@ -20,17 +20,17 @@ def get_options
     # return false if <filter_val> && <filter_val> <operator> <value>
     # P.S. выяснилось -эмпирически- методом тыка
     if data[equal]
-      data[equal] = key === 'price' ? data[equal].to_f : data[equal].to_i
+      data[equal] = key === 'salary' ? data[equal].to_f : data[equal].to_i
       result[:filters] << proc{ |val| val[equal] == data[equal] }
     end
 
     if data[min]
-      data[min] = key === 'price' ? data[min].to_f : data[min].to_i
+      data[min] = key === 'salary' ? data[min].to_f : data[min].to_i
       result[:filters] << proc{ |val| val[equal] > data[min] }
     end
 
     if data[max]
-      data[max] = key === 'price' ? data[max].to_f : data[max].to_i
+      data[max] = key === 'salary' ? data[max].to_f : data[max].to_i
       result[:filters] << proc{ |val| val[equal] < data[max] }
     end
   end
@@ -47,7 +47,7 @@ def generate_data(count)
         age: rand(101),
         width: rand(201),
         height: rand(201),
-        price: (rand * 100_000_000).to_i.to_f / 100
+        salary: (rand * 100_000_000).to_i.to_f / 100
     }
   end
 
